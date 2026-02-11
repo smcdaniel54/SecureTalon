@@ -61,8 +61,6 @@ The admin console is a major differentiator. Below: dashboard, policy editor, au
 |--------------------------------------------------------|------------------------------------------------------|
 | Hash chain valid, filters, timeline                     | Safe replay timeline, step-through, jump to type      |
 
-*Add the actual PNGs under `docs/screenshots/` (dashboard.png, policy-editor.png, audit-chain-ok.png, replay-viewer.png) to show your UI in the repo.*
-
 ## Security model (summary)
 
 - **Deny-by-default** — Only explicitly allowed tools and constraints are permitted per session.
