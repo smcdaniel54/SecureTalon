@@ -112,11 +112,14 @@ func TestRun_IntentFromMessageContent(t *testing.T) {
 	if r == nil {
 		t.Fatal("run not found")
 	}
-	// file.read /work/foo is allowed by policy but broker may fail if file doesn't exist
-	if len(r.Steps) != 1 {
-		t.Fatalf("expected 1 step, got %d", len(r.Steps))
+	// file.read /work/foo is allowed by policy: we record policy_eval (allow) + tool_exec (ok or error)
+	if len(r.Steps) != 2 {
+		t.Fatalf("expected 2 steps (policy_eval + tool_exec), got %d", len(r.Steps))
 	}
-	if r.Steps[0].Tool != "file.read" {
-		t.Fatalf("expected tool file.read, got %s", r.Steps[0].Tool)
+	if r.Steps[0].Type != "policy_eval" || r.Steps[0].Status != "allow" || r.Steps[0].Tool != "file.read" {
+		t.Fatalf("expected step 0 policy_eval allow file.read, got %s %s %s", r.Steps[0].Type, r.Steps[0].Status, r.Steps[0].Tool)
+	}
+	if r.Steps[1].Type != "tool_exec" || r.Steps[1].Tool != "file.read" {
+		t.Fatalf("expected step 1 tool_exec file.read, got %s %s", r.Steps[1].Type, r.Steps[1].Tool)
 	}
 }
