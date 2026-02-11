@@ -1,0 +1,9 @@
+/data/
+*.exe
+*.test
+*.out
+vendor/
+.env
+*.local
+ui/node_modules/
+ui/dist/
