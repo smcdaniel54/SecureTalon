@@ -2,6 +2,7 @@
   import { authStore, toastStore } from '../app/store'
   import { safeReplay } from '../lib/api'
   import type { ReplayResponse } from '../lib/types'
+  import PageHeader from '../components/PageHeader.svelte'
 
   let runId = ''
   let loading = false
@@ -53,26 +54,25 @@
 </script>
 
 <div class="page">
-  <h1>Replay (safe)</h1>
+  <PageHeader title="Replay (safe)" subtitle="View run timeline from audit log. No tools are re-executed — visualization only." />
   {#if !$authStore}
-    <p>Not connected. <a href="#/login">Login</a></p>
+    <p class="muted">Not connected. <a href="#/login">Login</a></p>
   {:else}
-    <p class="hint">View run timeline from audit log. No tools are re-executed — visualization only.</p>
     <div class="toolbar">
       <input type="text" bind:value={runId} placeholder="run_..." />
-      <button on:click={loadReplay} disabled={loading}>{loading ? 'Loading…' : 'Load Safe Replay'}</button>
+      <button class="primary" on:click={loadReplay} disabled={loading}>{loading ? 'Loading…' : 'Load Safe Replay'}</button>
     </div>
     {#if result}
-      <section class="result">
+      <section class="result card-section">
         <p>
           <strong>Run:</strong> {result.run_id} · <strong>Mode:</strong> {result.mode}
           · Chain: {result.valid ? '✓ Valid' : '✗ Invalid'}
         </p>
         <h2>Timeline</h2>
         <div class="step-controls">
-          <button on:click={prev} disabled={currentIndex <= 0}>← Prev</button>
+          <button class="secondary" on:click={prev} disabled={currentIndex <= 0}>← Prev</button>
           <span class="step-info">Step {currentIndex + 1} of {events.length}</span>
-          <button on:click={next} disabled={currentIndex >= events.length - 1}>Next →</button>
+          <button class="secondary" on:click={next} disabled={currentIndex >= events.length - 1}>Next →</button>
           <span class="jump-label">Jump to type:</span>
           <select
             value={currentEvent?.type ?? ''}
@@ -84,7 +84,7 @@
           </select>
         </div>
         {#if currentEvent}
-          <div class="current-event card">
+          <div class="current-event">
             <strong>{currentEvent.type}</strong> · {new Date(currentEvent.ts).toLocaleString()}
             {#if Object.keys(currentEvent.data).length > 0}
               <pre class="ev-data">{JSON.stringify(currentEvent.data, null, 2)}</pre>
@@ -116,24 +116,22 @@
 </div>
 
 <style>
-  .page { max-width: 720px; margin: 1rem auto; padding: 1rem; }
-  .hint { color: #666; margin-bottom: 1rem; }
-  .toolbar { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
-  .toolbar input { padding: 0.4rem; width: 220px; }
-  .result { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin-top: 1rem; }
-  .step-controls { display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; }
-  .step-info { font-size: 0.9rem; color: #666; }
-  .jump-label { margin-left: 0.5rem; font-size: 0.9rem; }
-  .step-controls select { padding: 0.35rem; min-width: 180px; }
-  .current-event { padding: 0.75rem; margin-bottom: 1rem; background: #f5f5f5; border-radius: 6px; }
-  .current-event pre { margin: 0.5rem 0 0; font-size: 0.85rem; }
-  .timeline-wrap { margin-top: 1rem; }
-  .timeline-item-wrap { margin-bottom: 0.25rem; }
-  .timeline-item-wrap.current { border-left: 3px solid #2196f3; padding-left: 0.5rem; margin-left: -0.5rem; }
-  .timeline-item-btn { display: block; width: 100%; text-align: left; padding: 0.5rem; background: #fafafa; border: 1px solid #eee; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
-  .timeline-item-btn:hover { background: #f0f0f0; }
-  .timeline-item-btn .ts { color: #666; margin-right: 0.5rem; font-size: 0.85rem; }
-  .data { font-size: 0.8rem; margin: 0.25rem 0 0.5rem; padding: 0.5rem; background: #fff; border: 1px solid #eee; overflow: auto; }
-  .muted { color: #666; }
-  .card { border: 1px solid #e0e0e0; }
+  .page { max-width: 720px; }
+  .toolbar { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); }
+  .toolbar input { width: 220px; }
+  .card-section { border: 1px solid var(--border); border-radius: var(--radius); padding: var(--space-4); margin-top: var(--space-4); background: var(--bg-elevated); }
+  .step-controls { display: flex; align-items: center; gap: var(--space-2); margin: var(--space-4) 0; flex-wrap: wrap; }
+  .step-info { font-size: 0.9rem; color: var(--text-muted); }
+  .jump-label { margin-left: var(--space-2); font-size: 0.9rem; color: var(--text-muted); }
+  .step-controls select { min-width: 180px; }
+  .current-event { padding: var(--space-3); margin-bottom: var(--space-4); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+  .current-event pre { margin: var(--space-2) 0 0; font-size: 0.85rem; }
+  .timeline-wrap { margin-top: var(--space-4); }
+  .timeline-item-wrap { margin-bottom: var(--space-1); }
+  .timeline-item-wrap.current { box-shadow: inset 3px 0 0 var(--accent); padding-left: var(--space-2); margin-left: calc(-1 * var(--space-2)); }
+  .timeline-item-btn { display: block; width: 100%; text-align: left; padding: var(--space-2); background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; font-size: 0.9rem; transition: background var(--duration-fast); }
+  .timeline-item-btn:hover { background: var(--hover-overlay); }
+  .timeline-item-btn .ts { color: var(--text-muted); margin-right: var(--space-2); font-size: 0.85rem; }
+  .data { font-size: 0.8rem; margin: var(--space-1) 0 var(--space-2); padding: var(--space-2); background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: auto; }
+  .muted { color: var(--text-muted); }
 </style>

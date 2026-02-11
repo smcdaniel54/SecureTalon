@@ -4,6 +4,7 @@
   import { authStore, toastStore } from '../app/store'
   import { listSessions, createSession as apiCreateSession } from '../lib/api'
   import type { Session } from '../lib/types'
+  import PageHeader from '../components/PageHeader.svelte'
 
   let sessions: Session[] = []
   let loading = true
@@ -46,17 +47,17 @@
 </script>
 
 <div class="page">
-  <h1>Sessions</h1>
-  <button on:click={() => showCreate = true}>New session</button>
+  <PageHeader title="Sessions" subtitle="List and open agent sessions." />
+  <button class="primary" on:click={() => showCreate = true}>New session</button>
   {#if showCreate}
-    <div class="modal">
+    <div class="card-inline">
       <input type="text" bind:value={newLabel} placeholder="Label" />
-      <button on:click={doCreate} disabled={creating}>{creating ? 'Creating…' : 'Create'}</button>
+      <button class="primary" on:click={doCreate} disabled={creating}>{creating ? 'Creating…' : 'Create'}</button>
       <button class="secondary" on:click={() => { showCreate = false; newLabel = '' }}>Cancel</button>
     </div>
   {/if}
   {#if loading}
-    <p>Loading…</p>
+    <p class="muted">Loading…</p>
   {:else}
     <table>
       <thead><tr><th>Label</th><th>Status</th><th>Created</th><th></th></tr></thead>
@@ -75,11 +76,16 @@
 </div>
 
 <style>
-  .page { max-width: 800px; margin: 1rem auto; padding: 1rem; }
-  .modal { margin: 1rem 0; padding: 1rem; border: 1px solid #ccc; border-radius: 8px; display: flex; gap: 0.5rem; align-items: center; }
-  .modal input { flex: 1; padding: 0.5rem; }
-  table { width: 100%; border-collapse: collapse; }
-  th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid #eee; }
-  button { padding: 0.4rem 0.8rem; cursor: pointer; }
-  button.secondary { background: #f0f0f0; border: 1px solid #ccc; }
+  .card-inline {
+    margin: var(--space-4) 0;
+    padding: var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-elevated);
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+  }
+  .card-inline input { flex: 1; }
+  .muted { color: var(--text-muted); }
 </style>

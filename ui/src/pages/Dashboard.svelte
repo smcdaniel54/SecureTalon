@@ -24,13 +24,16 @@
 </script>
 {#if $authStore}
   <div class="dashboard">
-    <h1>Dashboard</h1>
+    <header class="dashboard-header">
+      <h1>Dashboard</h1>
+      <p class="dashboard-desc">Overview of sessions and quick actions</p>
+    </header>
     <section class="card">
       <h2>Recent Sessions</h2>
       {#if loading}
-        <p>Loading…</p>
+        <p class="muted">Loading…</p>
       {:else if sessions.length === 0}
-        <p>No sessions yet.</p>
+        <p class="muted empty">No sessions yet. Create one from Sessions or run a demo.</p>
       {:else}
         <ul>
           {#each sessions as s}
@@ -39,17 +42,41 @@
         </ul>
       {/if}
     </section>
-    <p><button on:click={() => push('/sessions')}>Sessions</button> <button on:click={() => push('/audit')}>Audit</button></p>
+    <div class="actions">
+      <button class="primary" on:click={() => push('/sessions')}>Sessions</button>
+      <button class="secondary" on:click={() => push('/audit')}>Audit</button>
+    </div>
   </div>
 {:else}
-  <p>Not connected. <a href="#/login">Login</a></p>
+  <p class="not-connected">Not connected. <a href="#/login">Login</a></p>
 {/if}
 
 <style>
-  .dashboard { max-width: 600px; margin: 1rem auto; padding: 1rem; }
-  .card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
-  ul { list-style: none; padding: 0; }
-  li { padding: 0.25rem 0; }
-  a { color: #06c; }
-  button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; cursor: pointer; }
+  .dashboard { max-width: 680px; }
+  .dashboard-header {
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 3px solid var(--accent);
+  }
+  .dashboard-header h1 { margin-bottom: var(--space-1); }
+  .dashboard-desc { color: var(--text-muted); font-size: 0.9rem; margin: 0; }
+  .dashboard .card { margin-top: 0; }
+  .dashboard .muted { color: var(--text-muted); font-size: 0.9rem; }
+  .dashboard .muted.empty { margin: 0; }
+  .dashboard ul { list-style: none; padding: 0; margin: 0; }
+  .dashboard li {
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--border);
+    transition: background var(--duration-fast);
+  }
+  .dashboard li:last-child { border-bottom: none; }
+  .dashboard li:hover {
+    background: var(--hover-overlay);
+    margin: 0 calc(-1 * var(--space-2));
+    padding-left: var(--space-2);
+    padding-right: var(--space-2);
+    border-radius: var(--radius-sm);
+  }
+  .dashboard .actions { margin-top: var(--space-6); display: flex; gap: var(--space-2); }
+  .not-connected { color: var(--text-muted); }
 </style>

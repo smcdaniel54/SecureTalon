@@ -4,6 +4,7 @@
   import { queryAudit, validateAuditChain } from '../lib/api'
   import type { AuditEvent } from '../lib/types'
   import Timeline from '../components/Timeline.svelte'
+  import PageHeader from '../components/PageHeader.svelte'
 
   let events: AuditEvent[] = []
   let loading = true
@@ -87,9 +88,9 @@
 </script>
 
 <div class="page">
-  <h1>Audit</h1>
+  <PageHeader title="Audit" subtitle="Query audit log and validate event chain integrity." />
   {#if !$authStore}
-    <p>Not connected. <a href="#/login">Login</a></p>
+    <p class="muted">Not connected. <a href="#/login">Login</a></p>
   {:else}
     <div class="toolbar">
       <input type="text" bind:value={sessionFilter} placeholder="Session ID" />
@@ -107,8 +108,8 @@
       </select>
       <input type="datetime-local" bind:value={sinceFilter} placeholder="Since" title="Since (ISO)" />
       <input type="datetime-local" bind:value={untilFilter} placeholder="Until" title="Until (ISO)" />
-      <button on:click={load}>Refresh</button>
-      <button on:click={doValidateChain} disabled={validating} class="validate">{validating ? 'Validating…' : 'Validate chain'}</button>
+      <button class="secondary" on:click={load}>Refresh</button>
+      <button class="primary" on:click={doValidateChain} disabled={validating}>{validating ? 'Validating…' : 'Validate chain'}</button>
       <span class="view-toggle">
         <button class:active={viewMode === 'table'} on:click={() => viewMode = 'table'}>Table</button>
         <button class:active={viewMode === 'timeline'} on:click={() => viewMode = 'timeline'}>Timeline</button>
@@ -154,31 +155,31 @@
 </div>
 
 <style>
-  .page { max-width: 960px; margin: 1rem auto; padding: 1rem; }
-  .toolbar { display: flex; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; }
-  .toolbar input { padding: 0.4rem; width: 180px; }
-  .toolbar select { padding: 0.4rem; min-width: 200px; }
-  .toolbar .validate { margin-left: 0.5rem; }
-  .chain-result { padding: 0.5rem 1rem; border-radius: 6px; margin-bottom: 1rem; font-weight: 500; }
-  .chain-result.valid { background: #e8f5e9; border: 1px solid #81c784; }
-  .chain-result.invalid { background: #ffebee; border: 1px solid #e57373; }
-  .chain-badge { font-weight: 600; margin-right: 0.25rem; }
-  .chain-badge.ok { color: #2e7d32; }
-  .chain-badge.broken { color: #c62828; }
-  .view-toggle { margin-left: 0.5rem; }
-  .view-toggle button { margin-right: 0.25rem; }
-  .view-toggle button.active { font-weight: 600; background: #e3f2fd; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-  th, td { text-align: left; padding: 0.35rem; border-bottom: 1px solid #eee; vertical-align: top; }
-  .badge { font-size: 0.75rem; padding: 0.15rem 0.4rem; border-radius: 4px; background: #e0e0e0; }
-  .lifecycle-intent .badge { background: #bbdefb; }
-  .lifecycle-decision .badge { background: #c8e6c9; }
-  .lifecycle-capability .badge { background: #fff9c4; }
-  .lifecycle-tool .badge { background: #b2dfdb; }
-  .lifecycle-run .badge { background: #d1c4e9; }
-  .lifecycle-session .badge { background: #f0f4c3; }
-  .lifecycle-message .badge { background: #e1bee7; }
+  .page { max-width: 960px; }
+  .toolbar { display: flex; gap: var(--space-2); margin: var(--space-4) 0; flex-wrap: wrap; }
+  .toolbar input { width: 180px; }
+  .toolbar select { min-width: 200px; }
+  .chain-result { padding: var(--space-2) var(--space-4); border-radius: var(--radius-sm); margin-bottom: var(--space-4); font-weight: 500; }
+  .chain-result.valid { background: var(--success-subtle); border: 1px solid var(--success); }
+  .chain-result.invalid { background: var(--error-subtle); border: 1px solid var(--error); }
+  .chain-badge { font-weight: 600; margin-right: var(--space-1); }
+  .chain-badge.ok { color: var(--success); }
+  .chain-badge.broken { color: var(--error); }
+  .view-toggle { margin-left: var(--space-2); }
+  .view-toggle button { margin-right: var(--space-1); }
+  .view-toggle button.active { font-weight: 600; background: var(--accent-subtle); color: var(--accent); }
+  .page table { font-size: 0.85rem; }
+  .page td { vertical-align: top; }
+  .badge { font-size: 0.75rem; padding: 0.15rem 0.4rem; border-radius: var(--radius-sm); background: var(--hover-overlay); color: var(--text); }
+  .lifecycle-intent .badge { background: var(--accent-subtle); color: var(--accent); }
+  .lifecycle-decision .badge { background: var(--success-subtle); color: var(--success); }
+  .lifecycle-capability .badge { background: var(--warning-subtle); color: var(--warning); }
+  .lifecycle-tool .badge { background: var(--accent-soft); color: var(--accent-hover); }
+  .lifecycle-run .badge { background: var(--accent-subtle); color: var(--accent); }
+  .lifecycle-session .badge { background: var(--warning-subtle); color: var(--warning); }
+  .lifecycle-message .badge { background: var(--accent-soft); color: var(--accent); }
   .type { font-size: 0.75rem; }
   .data { margin: 0; font-size: 0.7rem; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .hash { color: #666; }
+  .hash { color: var(--text-muted); }
+  .muted { color: var(--text-muted); }
 </style>

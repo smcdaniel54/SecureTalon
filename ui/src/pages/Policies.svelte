@@ -231,15 +231,15 @@
 
 <style>
   .page { max-width: 680px; }
-  .deny-banner { background: #fff3e0; border: 1px solid #ffcc80; border-radius: 6px; padding: 0.6rem 1rem; margin-bottom: 1rem; font-weight: 500; }
-  .fix-suggestion { background: #e3f2fd; border-radius: 6px; padding: 0.5rem 1rem; margin-bottom: 1rem; font-size: 0.9rem; }
+  .deny-banner { background: var(--warning-subtle); border: 1px solid var(--warning); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-4); margin-bottom: var(--space-4); font-weight: 500; }
+  .fix-suggestion { background: var(--accent-subtle); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-4); margin-bottom: var(--space-4); font-size: 0.9rem; }
   .overrides { list-style: none; padding: 0; }
-  .override { padding: 0.75rem; margin: 0.5rem 0; background: #f5f5f5; border-radius: 6px; }
-  .override select { margin-right: 0.5rem; }
-  .remove { margin-left: 0.5rem; color: #c00; background: none; border: none; cursor: pointer; font-size: 0.85rem; }
-  .danger-zone { background: #ffebee; border: 1px solid #e57373; border-radius: 6px; padding: 1rem; margin: 1rem 0; }
-  .danger-zone input { margin-top: 0.5rem; width: 100%; max-width: 200px; }
-  .muted { color: #666; }
-  .error { color: #c00; }
-  .primary { margin-top: 0.5rem; padding: 0.5rem 1rem; cursor: pointer; }
+  .override { padding: var(--space-3); margin: var(--space-2) 0; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+  .override select { margin-right: var(--space-2); }
+  .remove { margin-left: var(--space-2); color: var(--error); background: none; border: none; cursor: pointer; font-size: 0.85rem; }
+  .danger-zone { background: var(--error-subtle); border: 1px solid var(--error); border-radius: var(--radius-sm); padding: var(--space-4); margin: var(--space-4) 0; }
+  .danger-zone input { margin-top: var(--space-2); width: 100%; max-width: 200px; }
+  .muted { color: var(--text-muted); }
+  .error { color: var(--error); }
+  .primary { margin-top: var(--space-2); }
 </style>

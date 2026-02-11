@@ -7,3 +7,4 @@ vendor/
 *.local
 ui/node_modules/
 ui/dist/
+docs/screenshots/_capture-debug.png

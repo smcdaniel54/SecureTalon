@@ -3,6 +3,8 @@
   import { authStore, toastStore } from '../app/store'
   import { listSkills, registerSkill } from '../lib/api'
   import type { Skill, RegisterSkillPayload } from '../lib/types'
+  import PageHeader from '../components/PageHeader.svelte'
+  import Card from '../components/Card.svelte'
 
   let skills: Skill[] = []
   let loading = true
@@ -88,13 +90,13 @@
 </script>
 
 <div class="page">
-  <h1>Skills</h1>
+  <PageHeader title="Skills" subtitle="Registered agent skills (digest-only images)." />
   {#if !$authStore}
-    <p>Not connected. <a href="#/login">Login</a></p>
+    <p class="muted">Not connected. <a href="#/login">Login</a></p>
   {:else}
-    <button on:click={() => showRegister = true}>Register skill</button>
+    <button class="primary" on:click={() => showRegister = true}>Register skill</button>
     {#if loading}
-      <p>Loading…</p>
+      <p class="muted">Loading…</p>
     {:else}
       {#if skills.length === 0}
         <p class="muted">No skills registered. Register a skill (image must use digest, e.g. <code>repo/name@sha256:...</code>).</p>
@@ -115,8 +117,7 @@
       {/if}
     {/if}
     {#if showRegister}
-      <div class="modal card">
-        <h2>Register skill</h2>
+      <Card title="Register skill">
         <p class="hint">Only images by digest (<code>@sha256:...</code>) are allowed to run. Signing is recommended.</p>
         <label for="reg-name">Name</label>
         <input id="reg-name" type="text" bind:value={regName} placeholder="hello-world" />
@@ -132,28 +133,25 @@
         <textarea id="reg-manifest" bind:value={regManifest} rows="4" placeholder={'{"key": "value"}'}></textarea>
         {#if regErr}<p class="error">{regErr}</p>{/if}
         <div class="actions">
-          <button on:click={register} disabled={registering}>{registering ? 'Registering…' : 'Register'}</button>
+          <button class="primary" on:click={register} disabled={registering}>{registering ? 'Registering…' : 'Register'}</button>
           <button class="secondary" on:click={() => { showRegister = false; regErr = '' }}>Cancel</button>
         </div>
-      </div>
+      </Card>
     {/if}
   {/if}
 </div>
 
 <style>
-  .page { max-width: 720px; margin: 1rem auto; padding: 1rem; }
-  .modal { margin-top: 1rem; }
-  .card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; }
-  .hint { font-size: 0.85rem; color: #666; margin-bottom: 0.75rem; }
-  label { display: block; margin-top: 0.5rem; }
-  input, textarea { width: 100%; padding: 0.4rem; margin-top: 0.2rem; box-sizing: border-box; }
-  textarea { font-family: ui-monospace, monospace; font-size: 0.9rem; }
-  .actions { margin-top: 1rem; display: flex; gap: 0.5rem; }
-  .error { color: #c00; }
-  .muted { color: #666; }
-  .badge { font-size: 0.85rem; color: #666; }
-  .badge.signed { color: #2e7d32; font-weight: 500; }
-  table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-  th, td { text-align: left; padding: 0.4rem; border-bottom: 1px solid #eee; }
-  button.secondary { background: #f0f0f0; border: 1px solid #ccc; }
+  .page { max-width: 720px; }
+  .hint { font-size: 0.85rem; color: var(--text-muted); margin-bottom: var(--space-3); }
+  .page label { display: block; margin-top: var(--space-2); }
+  .page label:first-of-type { margin-top: 0; }
+  .page input, .page textarea { width: 100%; margin-top: var(--space-1); box-sizing: border-box; }
+  .page textarea { font-family: ui-monospace, monospace; font-size: 0.9rem; }
+  .actions { margin-top: var(--space-4); display: flex; gap: var(--space-2); }
+  .error { color: var(--error); font-size: 0.875rem; }
+  .muted { color: var(--text-muted); }
+  .badge { font-size: 0.85rem; color: var(--text-muted); }
+  .badge.signed { color: var(--success); font-weight: 500; }
+  .page table { margin-top: var(--space-4); }
 </style>

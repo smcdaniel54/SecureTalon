@@ -47,10 +47,37 @@ func main() {
 		Agent:      agentLoop,
 	}
 	router := api.NewRouter(handlers)
-	handler := auth.Middleware(cfg.AdminToken)(router)
+	authed := auth.Middleware(cfg.AdminToken)(router)
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/healthz" {
+			if r.Method != http.MethodGet {
+				http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+				return
+			}
+			w.WriteHeader(http.StatusOK)
+			w.Write([]byte("ok"))
+			return
+		}
+		authed.ServeHTTP(w, r)
+	})
+
+	// CORS: allow UI on another port (e.g. localhost:5173) to call the API
+	cors := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		origin := r.Header.Get("Origin")
+		if origin != "" {
+			w.Header().Set("Access-Control-Allow-Origin", origin)
+		}
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type")
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+		handler.ServeHTTP(w, r)
+	})
 
 	log.Printf("SecureTalon listening on %s", cfg.Addr)
-	if err := http.ListenAndServe(cfg.Addr, handler); err != nil {
+	if err := http.ListenAndServe(cfg.Addr, cors); err != nil {
 		log.Fatal(err)
 	}
 	os.Exit(0)

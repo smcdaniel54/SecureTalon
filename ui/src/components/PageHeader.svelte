@@ -9,7 +9,19 @@
 </header>
 
 <style>
-  .page-header { margin-bottom: 1rem; }
-  .page-header h1 { font-size: 1.5rem; margin: 0 0 0.25rem 0; }
-  .subtitle { color: #666; font-size: 0.9rem; margin: 0; }
+  .page-header {
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 3px solid var(--accent);
+  }
+  .page-header h1 {
+    font-size: 1.5rem;
+    margin: 0 0 var(--space-1) 0;
+    letter-spacing: -0.02em;
+  }
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+  }
 </style>

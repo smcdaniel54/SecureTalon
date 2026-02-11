@@ -27,17 +27,18 @@
 <style>
   .timeline { list-style: none; padding: 0; margin: 0; }
   .timeline-item {
-    padding: 0.75rem;
+    padding: 0.75rem 1rem;
     margin: 0.5rem 0;
-    border-left: 4px solid #2196f3;
-    background: #fafafa;
-    border-radius: 4px;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    background: var(--bg-elevated);
+    border-radius: var(--radius-sm);
   }
-  .ts { font-size: 0.8rem; color: #666; margin-right: 0.5rem; }
-  .type { font-weight: 500; margin-right: 0.5rem; }
+  .ts { font-size: 0.8rem; color: var(--text-muted); margin-right: 0.5rem; }
+  .type { font-weight: 500; margin-right: 0.5rem; color: var(--text); }
   .status { font-size: 0.85rem; }
-  .status.ok { color: #2e7d32; }
-  .status.deny { color: #c62828; }
-  .status.err { color: #e65100; }
-  .data { font-size: 0.8rem; margin: 0.5rem 0 0; padding: 0.5rem; background: #fff; border: 1px solid #eee; overflow: auto; }
+  .status.ok { color: var(--success); }
+  .status.deny { color: var(--error); }
+  .status.err { color: var(--warning); }
+  .data { font-size: 0.8rem; margin: 0.5rem 0 0; padding: 0.5rem; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: auto; color: var(--text); }
 </style>

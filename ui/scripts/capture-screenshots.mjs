@@ -1,23 +1,16 @@
 #!/usr/bin/env node
 /**
- * Capture README screenshots: dashboard, policy-editor, audit-chain-ok, replay-viewer.
+ * Capture real README screenshots: dashboard, policy-editor, audit-chain-ok, replay-viewer.
  *
- * Prereqs:
- *   - Backend running (e.g. ADDR=:8090 ADMIN_TOKEN=demo go run ./cmd/securetalon)
- *   - UI running (npm run dev in ui/)
- *   - Optional: create a session and run something so Dashboard/Audit have content
+ * Prereqs (must be running first):
+ *   1. Backend: ADDR=:8090 ADMIN_TOKEN=demo go run ./cmd/securetalon   (from repo root)
+ *   2. UI:      npm run dev   (in ui/)
  *
- * Run from repo root:
- *   cd ui && npm run capture-screenshots
+ * Then run: npm run capture-screenshots   (from ui/)
+ * Or:       UI_BASE_URL=http://localhost:5173 API_BASE_URL=http://localhost:8090 npm run capture-screenshots
  *
- * Or from ui/:
- *   node scripts/capture-screenshots.mjs
- *
- * Env:
- *   UI_BASE_URL   default http://localhost:5173
- *   API_BASE_URL  default http://localhost:8090 (used for login)
- *   ADMIN_TOKEN   default demo
- *   SCREENSHOTS_DIR default ../../docs/screenshots (relative to ui/scripts/)
+ * Env: UI_BASE_URL (default http://localhost:5173), API_BASE_URL (default http://localhost:8090),
+ *      ADMIN_TOKEN (default demo), SCREENSHOTS_DIR (default ../../docs/screenshots)
  */
 
 import { chromium } from 'playwright';
@@ -41,49 +34,71 @@ async function main() {
   const context = await browser.newContext({
     viewport: VIEWPORT,
     ignoreHTTPSErrors: true,
+    javaScriptEnabled: true,
   });
+  context.setDefaultTimeout(30000);
   const page = await context.newPage();
 
+  const appUrl = UI_BASE.replace(/\/$/, '') + '/#/';
+
   try {
-    // Login if needed
-    await page.goto(UI_BASE + '/#/login', { waitUntil: 'networkidle' });
+    // Load login, fill form, click Connect, wait for dashboard (real auth flow)
+    await page.goto(UI_BASE.replace(/\/$/, '') + '/#/login', { waitUntil: 'networkidle', timeout: 25000 });
+    await page.waitForTimeout(3000);
     const apiInput = page.locator('#apiBase');
-    if (await apiInput.isVisible()) {
-      await apiInput.fill(API_BASE);
-      await page.locator('#token').fill(TOKEN);
-      await page.getByRole('button', { name: /Connect/i }).click();
+    await apiInput.waitFor({ state: 'visible', timeout: 10000 });
+    await apiInput.fill(API_BASE);
+    await page.locator('#token').fill(TOKEN);
+    await page.getByRole('button', { name: /Connect/i }).click();
+    const loggedIn = await page.locator('aside.nav').waitFor({ state: 'visible', timeout: 25000 }).then(() => true).catch(() => false);
+    if (!loggedIn) {
+      await page.screenshot({ path: join(OUT_DIR, '_capture-debug.png'), fullPage: false }).catch(() => {});
+      console.warn('Login did not complete; check _capture-debug.png.');
+    } else {
       await page.waitForTimeout(2000);
     }
 
     // 1. Dashboard
-    await page.goto(UI_BASE + '/#/', { waitUntil: 'networkidle' });
-    await page.waitForTimeout(800);
+    await page.goto(appUrl, { waitUntil: 'domcontentloaded', timeout: 10000 });
+    await page.waitForTimeout(2000);
+    await page.locator('main.main').evaluate((el) => el?.scrollIntoView({ block: 'start' })).catch(() => {});
+    await page.waitForTimeout(500);
     await page.screenshot({ path: join(OUT_DIR, 'dashboard.png'), fullPage: false });
     console.log('Saved dashboard.png');
 
     // 2. Policy editor
-    await page.goto(UI_BASE + '/#/policies', { waitUntil: 'networkidle' });
-    await page.waitForTimeout(800);
+    await page.goto(UI_BASE.replace(/\/$/, '') + '/#/policies', { waitUntil: 'domcontentloaded', timeout: 10000 });
+    await page.waitForTimeout(2000);
+    await page.locator('main.main').evaluate((el) => el?.scrollIntoView({ block: 'start' })).catch(() => {});
+    await page.waitForTimeout(500);
     await page.screenshot({ path: join(OUT_DIR, 'policy-editor.png'), fullPage: false });
     console.log('Saved policy-editor.png');
 
-    // 3. Audit (try to show "Chain OK" by clicking Validate if present)
-    await page.goto(UI_BASE + '/#/audit', { waitUntil: 'networkidle' });
-    await page.waitForTimeout(800);
+    // 3. Audit
+    await page.goto(UI_BASE.replace(/\/$/, '') + '/#/audit', { waitUntil: 'domcontentloaded', timeout: 10000 });
+    await page.waitForTimeout(2000);
     const validateBtn = page.getByRole('button', { name: /Validate chain/i });
     if (await validateBtn.isVisible()) {
       await validateBtn.click();
-      await page.waitForTimeout(1500);
+      await page.waitForTimeout(2000);
     }
+    await page.locator('main.main').evaluate((el) => el?.scrollIntoView({ block: 'start' })).catch(() => {});
+    await page.waitForTimeout(500);
     await page.screenshot({ path: join(OUT_DIR, 'audit-chain-ok.png'), fullPage: false });
     console.log('Saved audit-chain-ok.png');
 
-    // 4. Replay viewer
-    await page.goto(UI_BASE + '/#/replay', { waitUntil: 'networkidle' });
-    await page.waitForTimeout(800);
+    // 4. Replay
+    await page.goto(UI_BASE.replace(/\/$/, '') + '/#/replay', { waitUntil: 'domcontentloaded', timeout: 10000 });
+    await page.waitForTimeout(2000);
+    await page.locator('main.main').evaluate((el) => el?.scrollIntoView({ block: 'start' })).catch(() => {});
+    await page.waitForTimeout(500);
     await page.screenshot({ path: join(OUT_DIR, 'replay-viewer.png'), fullPage: false });
     console.log('Saved replay-viewer.png');
 
+  } catch (err) {
+    await page.screenshot({ path: join(OUT_DIR, '_capture-debug.png'), fullPage: false }).catch(() => {});
+    console.error('Capture failed. Ensure backend and UI are running, then retry.');
+    throw err;
   } finally {
     await browser.close();
   }

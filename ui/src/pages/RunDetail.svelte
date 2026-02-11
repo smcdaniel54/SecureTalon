@@ -4,6 +4,7 @@
   import { authStore, toastStore } from '../app/store'
   import { getRun } from '../lib/api'
   import type { Run } from '../lib/types'
+  import PageHeader from '../components/PageHeader.svelte'
 
   export let params: { id?: string } = {}
   $: runId = params.id ?? ''
@@ -41,13 +42,13 @@
 
 <div class="page">
   {#if !$authStore}
-    <p>Not connected. <a href="#/login">Login</a></p>
+    <p class="muted">Not connected. <a href="#/login">Login</a></p>
   {:else if !runId}
-    <p>Run ID required.</p>
+    <p class="muted">Run ID required.</p>
   {:else if loading && !run}
-    <p>Loading…</p>
+    <p class="muted">Loading…</p>
   {:else if run}
-    <h1>Run {run.id}</h1>
+    <PageHeader title="Run {run.id}" subtitle="Steps and status for this run." />
     <p>
       Status: <strong class="status" class:running={run.status === 'running' || run.status === 'queued'}>{run.status}</strong>
       · Started: {new Date(run.started_at).toLocaleString()}
@@ -78,15 +79,15 @@
 </div>
 
 <style>
-  .page { max-width: 720px; margin: 1rem auto; padding: 1rem; }
+  .page { max-width: 720px; }
   .steps { list-style: none; padding: 0; }
-  .step { padding: 0.75rem; margin: 0.5rem 0; border-left: 4px solid #ddd; background: #fafafa; border-radius: 4px; }
-  .step.denied { border-left-color: #f44336; }
-  .step.error { border-left-color: #ff9800; }
-  .step.ok { border-left-color: #4caf50; }
-  .status.running { color: #2196f3; }
-  .muted { color: #666; }
-  .step-id { font-weight: 600; margin-right: 0.5rem; }
-  .step-type { margin-right: 0.5rem; color: #666; }
-  .details { font-size: 0.85rem; overflow: auto; margin: 0.5rem 0 0; padding: 0.5rem; background: #fff; border: 1px solid #eee; }
+  .step { padding: var(--space-3); margin: var(--space-2) 0; border-left: 4px solid var(--border); background: var(--bg-elevated); border-radius: var(--radius-sm); }
+  .step.denied { border-left-color: var(--error); }
+  .step.error { border-left-color: var(--warning); }
+  .step.ok { border-left-color: var(--success); }
+  .status.running { color: var(--accent); }
+  .muted { color: var(--text-muted); }
+  .step-id { font-weight: 600; margin-right: var(--space-2); }
+  .step-type { margin-right: var(--space-2); color: var(--text-muted); }
+  .details { font-size: 0.85rem; overflow: auto; margin: var(--space-2) 0 0; padding: var(--space-2); background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); }
 </style>
