@@ -22,7 +22,7 @@ Create a new Go module:
 
 ## MVP Scope
 ### APIs
-Implement endpoints from `docs/04-API-SPEC.md`:
+Implement endpoints from [API-SPEC.md](API-SPEC.md):
 - sessions: create/list/get
 - messages: post/list
 - runs: get status
@@ -54,11 +54,11 @@ Implement core structs and JSON schemas:
   - file.write (allowed roots, max bytes)
   - http.fetch (allowed domains, methods, max bytes) using Go net/http
   - docker.run (call `docker` CLI or Docker API; MVP can use CLI)
-- For docker.run enforce flags listed in `docs/05-DOCKER-RUNNER.md`
+- For docker.run enforce flags listed in [DOCKER-RUNNER.md](DOCKER-RUNNER.md)
 
 ### Audit Store
 - Append-only JSONL in `./data/audit/`
-- Include hash chain per `docs/06-AUDIT-AND-REPLAY.md`
+- Include hash chain per [AUDIT-AND-REPLAY.md](AUDIT-AND-REPLAY.md)
 - Query by session/time/type
 
 ### Replay Engine
@@ -84,7 +84,7 @@ Implement core structs and JSON schemas:
 - Minimal sample skill registration in docs or example script
 
 ## Acceptance
-System passes all checks in `docs/07-ACCEPTANCE-TESTS.md`.
+System passes all checks in [ACCEPTANCE-TESTS.md](ACCEPTANCE-TESTS.md).
 
 ---
 

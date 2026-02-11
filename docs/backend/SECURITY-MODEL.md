@@ -97,5 +97,5 @@ Every security-relevant action must be logged:
 - Tool execution (inputs metadata, output hash, exit status)
 - Skill runs (image digest, resource constraints)
 
-Audit log is append-only; tamper evidence via hash chaining (see 06-AUDIT-AND-REPLAY.md).
+Audit log is append-only; tamper evidence via hash chaining (see [AUDIT-AND-REPLAY.md](AUDIT-AND-REPLAY.md)).
 

@@ -30,7 +30,7 @@ In `/ui`:
 - Provide “Forget” button
 
 ### Pages
-Implement pages per `docs/04-PAGE-SPECS.md`:
+Implement pages per [PAGE-SPECS.md](PAGE-SPECS.md):
 - Login
 - Dashboard
 - Sessions
@@ -42,7 +42,7 @@ Implement pages per `docs/04-PAGE-SPECS.md`:
 - Replay
 
 ### Components/Templates
-Implement reusable components from `docs/03-UI-TEMPLATES.md`:
+Implement reusable components from [TEMPLATES.md](TEMPLATES.md):
 - AppShell, PageHeader, Card, DataTable, Timeline, FormPanel, Toasts, Modal
 
 ### API Client
@@ -54,7 +54,7 @@ Create `src/lib/api.ts`:
 - Types in `src/lib/types.ts` matching backend API responses
 
 ### Security UX
-Implement guardrails from `docs/05-UX-GUARDRAILS.md`:
+Implement guardrails from [UX-GUARDRAILS.md](UX-GUARDRAILS.md):
 - Prevent saving insecure policies without explicit confirmations
 - Provide “Fix safely” suggestions on DENY reasons
 - Danger zone section for risky toggles (shell.exec)

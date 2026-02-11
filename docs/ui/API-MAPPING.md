@@ -1,6 +1,6 @@
 # API Mapping (UI ↔ Backend)
 
-This UI consumes the backend REST APIs (see backend pack `docs/04-API-SPEC.md`).
+This UI consumes the backend REST APIs (see [backend API-SPEC](../backend/API-SPEC.md)).
 
 ## Auth
 - Store:

@@ -1,0 +1,13 @@
+{
+  "overrides": [
+    {
+      "tool": "http.fetch",
+      "allow": true,
+      "constraints": {
+        "domains": ["https://jsonplaceholder.typicode.com"],
+        "methods": ["GET"],
+        "max_bytes": 200000
+      }
+    }
+  ]
+}

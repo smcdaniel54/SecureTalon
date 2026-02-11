@@ -1,0 +1,12 @@
+{
+  "overrides": [
+    {
+      "tool": "file.read",
+      "allow": true,
+      "constraints": {
+        "roots": ["work"],
+        "max_bytes": 1048576
+      }
+    }
+  ]
+}

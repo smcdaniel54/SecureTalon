@@ -1,0 +1,13 @@
+{
+  "overrides": [
+    {
+      "tool": "docker.run",
+      "allow": true,
+      "constraints": {
+        "images": ["YOUR_IMAGE_DIGEST"],
+        "network_allowed": false,
+        "mounts_allowed": false
+      }
+    }
+  ]
+}

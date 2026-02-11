@@ -1,0 +1,13 @@
+{
+  "role": "user",
+  "content": "Run container",
+  "intents": [
+    {
+      "tool": "docker.run",
+      "params": {
+        "image": "YOUR_IMAGE_DIGEST",
+        "cmd": []
+      }
+    }
+  ]
+}

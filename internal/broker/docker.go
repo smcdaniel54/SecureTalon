@@ -30,7 +30,7 @@ func (b *Broker) doDockerRun(params map[string]interface{}, constraints map[stri
 			return nil, fmt.Errorf("image not in allowlist")
 		}
 	}
-	// Hardened defaults per 05-DOCKER-RUNNER.md
+	// Hardened defaults per docs/backend/DOCKER-RUNNER.md
 	args := []string{
 		"run", "--rm",
 		"--read-only",

@@ -1,0 +1,13 @@
+{
+  "role": "user",
+  "content": "Fetch post 1 from API",
+  "intents": [
+    {
+      "tool": "http.fetch",
+      "params": {
+        "url": "https://jsonplaceholder.typicode.com/posts/1",
+        "method": "GET"
+      }
+    }
+  ]
+}

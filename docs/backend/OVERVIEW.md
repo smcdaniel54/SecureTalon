@@ -23,14 +23,14 @@ This pack defines:
 
 > Note: A separate UI pack (Svelte/Vite) will be created after backend MVP is functional. This pack includes only the minimal endpoints/UI considerations needed to support the future UI.
 
-## Quick start for Cursor AI
-1. Read **01-ARCHITECTURE.md**
-2. Implement **02-SECURITY-MODEL.md**
-3. Build services in **03-SERVICES.md**
-4. Implement APIs from **04-API-SPEC.md**
-5. Enable Docker execution from **05-DOCKER-RUNNER.md**
-6. Add audit/replay from **06-AUDIT-AND-REPLAY.md**
-7. Run through tests in **07-ACCEPTANCE-TESTS.md**
+## Quick start
+1. Read [ARCHITECTURE.md](ARCHITECTURE.md)
+2. Implement [SECURITY-MODEL.md](SECURITY-MODEL.md)
+3. Build services in [SERVICES.md](SERVICES.md)
+4. Implement APIs from [API-SPEC.md](API-SPEC.md)
+5. Enable Docker execution from [DOCKER-RUNNER.md](DOCKER-RUNNER.md)
+6. Add audit/replay from [AUDIT-AND-REPLAY.md](AUDIT-AND-REPLAY.md)
+7. Run through tests in [ACCEPTANCE-TESTS.md](ACCEPTANCE-TESTS.md)
 
 ## Non-goals (for MVP)
 - Multi-tenant SaaS
