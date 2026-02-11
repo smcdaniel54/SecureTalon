@@ -1,5 +1,9 @@
 # SecureTalon
 
+<p align="center">
+  <img src="assets/securetalon-logo.png" alt="SecureTalon logo" width="280" />
+</p>
+
 [![CI](https://github.com/smcdaniel54/SecureTalon/actions/workflows/ci.yml/badge.svg)](https://github.com/smcdaniel54/SecureTalon/actions/workflows/ci.yml)
 
 **SecureTalon** is a security-first agent platform inspired by OpenClaw. It executes AI tool intents only through least-privilege policies, broker-mediated tools, Docker-sandboxed skills, and tamper-evident audit logs—so agents remain **powerful**, **observable**, and **safe by design**.

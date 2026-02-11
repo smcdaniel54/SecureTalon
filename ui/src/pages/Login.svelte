@@ -33,6 +33,7 @@
 </script>
 
 <div class="login">
+  <img src="/securetalon-logo.png" alt="SecureTalon" class="login-logo" />
   <h1>SecureTalon</h1>
   <p class="subtitle">Connect to your API</p>
   <form on:submit|preventDefault={handleConnect}>
@@ -55,7 +56,9 @@
     max-width: 400px;
     margin: 2rem auto;
     padding: 1.5rem;
+    text-align: center;
   }
+  .login-logo { width: 160px; height: auto; margin-bottom: 1rem; display: block; margin-left: auto; margin-right: auto; }
   h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
   .subtitle { color: #666; margin-bottom: 1.5rem; }
   label { display: block; margin-top: 0.75rem; font-weight: 500; }

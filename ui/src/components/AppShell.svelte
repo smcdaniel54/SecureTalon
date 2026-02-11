@@ -13,7 +13,10 @@
 <div class="shell">
   {#if $authStore}
     <aside class="nav">
-      <div class="nav-brand">SecureTalon</div>
+      <div class="nav-brand">
+        <img src="/securetalon-logo.png" alt="SecureTalon" class="nav-logo" />
+        <span>SecureTalon</span>
+      </div>
       <nav class="nav-links">
         <a href="#/" on:click|preventDefault={() => push('/')}>Dashboard</a>
         <a href="#/sessions" on:click|preventDefault={() => push('/sessions')}>Sessions</a>
@@ -45,7 +48,15 @@
     flex-direction: column;
     padding: 1rem 0;
   }
-  .nav-brand { font-weight: 600; padding: 0 1rem 1rem; font-size: 1rem; }
+  .nav-brand {
+    font-weight: 600;
+    padding: 0 1rem 1rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .nav-logo { height: 28px; width: auto; display: block; }
   .nav-links { flex: 1; display: flex; flex-direction: column; gap: 0.25rem; }
   .nav-links a {
     padding: 0.5rem 1rem;
