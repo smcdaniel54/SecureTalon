@@ -9,6 +9,6 @@ build:
 test:
 	go test ./...
 
-# Backend tests + UI build (tight loop). On Windows: .\scripts\test-all.ps1
+# Backend tests + UI build + screenshot capture. Run: .\scripts\test-all.ps1  (from repo root)
 test-all: test
 	cd ui && npm run build
